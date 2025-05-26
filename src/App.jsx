@@ -1,11 +1,7 @@
-import "./App.css";
+import Elevator from "./components/Elevator";
 
 function App() {
-  return (
-    <>
-      <div className="text-2xl text-amber-300">Hi</div>
-    </>
-  );
+  return <Elevator />;
 }
 
 export default App;
