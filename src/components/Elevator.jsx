@@ -8,7 +8,7 @@ const Elevator = () => {
 
       <div className="flex justify-center items-center pt-10">
         {/* Floor Map */}
-        <div className="w-[150px] h-[100px] bg-[#2e2d3e] border-[3px] border-[#5a556e] shadow-[inset_0_0_20px_rgba(255,255,255,0.1)] rounded-md mx-auto flex items-center justify-center text-sm text-gray-300">
+        <div className="w-[150px] h-[100px] bg-[#2e2d3e] border-[3px] border-[#5a556e] shadow-[inset_0_0_20px_rgba(255,255,255,0.1)] rounded-md flex items-center justify-center text-sm text-gray-300">
           Floor Map
         </div>
 
@@ -19,7 +19,7 @@ const Elevator = () => {
         </div>
 
         {/* Button Panel */}
-        <div className="w-[150px] h-[180px] bg-[#2e2d3e] border-[3px] border-[#5a556e] shadow-[inset_0_0_20px_rgba(255,255,255,0.1)] rounded-md mx-auto flex flex-wrap gap-3 p-4 justify-center items-center">
+        <div className="w-[150px] h-[180px] bg-[#2e2d3e] border-[3px] border-[#5a556e] shadow-[inset_0_0_20px_rgba(255,255,255,0.1)] rounded-md flex flex-wrap gap-3 p-4 justify-center items-center">
           {[1, 2, 3, 4, 5, 6].map((floor) => (
             <button
               key={floor}
