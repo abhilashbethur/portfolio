@@ -32,8 +32,8 @@ function App() {
 
   if (isMobile) {
     return (
-      <div className="h-screen w-screen flex flex-col items-center justify-center p-6 bg-gradient-to-b from-[#0d0f1a] to-[#1a1c2b] text-white text-center">
-        <h3 className="text-xl mb-4 text-gray-200">
+      <div className="h-screen w-screen flex flex-col justify-start pt-12 px-3 pb-3 bg-gradient-to-b from-[#0d0f1a] to-[#1a1c2b] text-white text-center">
+        <h3 className="text-xl mb-3 text-gray-200">
           This experience is best on desktop, but you can still explore…
         </h3>
         {/* <p className="text-gray-400 text-md mb-6 max-w-md">
@@ -41,7 +41,7 @@ function App() {
           the meantime, you can still check my resume below.
         </p> */}
 
-        <div className="w-full max-w-md h-[70vh] rounded-lg overflow-hidden shadow-xl border border-gray-300 bg-white">
+        <div className="w-full max-w-md h-[65vh] rounded-lg overflow-hidden shadow-xl border border-gray-300 bg-white">
           <iframe
             title="Resume"
             src="https://drive.google.com/file/d/1956_apzeS5ntdJj0AmgR6tmBCvlrhlL1/preview"
@@ -50,7 +50,7 @@ function App() {
           ></iframe>
         </div>
 
-        <p className="mt-4 text-gray-600 text-sm">
+        <p className="mt-3 text-gray-600 text-sm">
           Resume not loading?{" "}
           <a
             href="https://drive.google.com/file/d/1956_apzeS5ntdJj0AmgR6tmBCvlrhlL1/view"
