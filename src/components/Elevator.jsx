@@ -192,7 +192,10 @@ const Elevator = () => {
   const GoBackButton = () => (
     <div className="flex justify-center">
       <button
-        onClick={() => setContentType(null)}
+        onClick={() => {
+          setContentType(null);
+          setIsModalOpen(false);
+        }}
         className="px-6 py-3 bg-gray-300 text-gray-800 text-lg rounded-md hover:bg-gray-400 transition cursor-pointer"
       >
         Go Back
