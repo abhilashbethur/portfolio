@@ -66,36 +66,37 @@ function App() {
   }
 
   return (
-    <div className="h-screen bg-gray-50">
+    <div className="h-screen">
       <Modal
         open={showInitialModal}
         onClose={handleContinueClick}
         content={
-          <div className="text-center p-6">
-            <h2 className="text-3xl font-bold mb-4 text-gray-800">
-              Welcome to Abhilash's Portfolio
+          <>
+            <h2 className="text-3xl font-bold mb-6 text-gray-800">
+              Welcome to Abhilash's Portfolio Building
             </h2>
-            <p className="text-lg text-gray-700 mb-8 leading-relaxed max-w-xl mx-auto">
-              To explore the different floors, click the floor plan inside the
-              elevator on the left.
+            <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+              To access the floors, click on the floor plan inside the elevator
+              on the left.
               <br />
-              In a rush? You can directly access my resume too.
+              If you are in a hurry, then click on <strong>Resume</strong> to
+              find my resume.
             </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <div className="flex justify-center gap-6">
               <button
                 onClick={handleResumeClick}
                 className="px-6 py-3 bg-blue-600 text-white text-lg rounded-md hover:bg-blue-700 transition"
               >
-                View Resume
+                Take me to Resume
               </button>
               <button
                 onClick={handleContinueClick}
-                className="px-6 py-3 bg-gray-200 text-gray-800 text-lg rounded-md hover:bg-gray-300 transition"
+                className="px-6 py-3 bg-gray-300 text-gray-800 text-lg rounded-md hover:bg-gray-400 transition"
               >
                 Continue to Elevator
               </button>
             </div>
-          </div>
+          </>
         }
       />
       <Elevator />
