@@ -275,8 +275,8 @@ const Elevator = () => {
       <div className="flex justify-center items-center pt-10 gap-4 md:gap-20 h-full max-w-[1440px] mx-auto">
         <FloorPlan onClick={() => setIsFloorMapOpen(true)} />
 
-        <div className="flex flex-col items-center gap-10 w-full md:max-w-[50%]">
-          <div className="w-[150px] h-[100px] mx-auto bg-[#1f2233] text-[#e0d8c3] flex items-center justify-center text-3xl font-bold rounded-lg shadow-[inset_0_0_20px_rgba(255,255,255,0.05)] border-[3px] border-[#444656] relative">
+        <div className="flex flex-col gap-10 w-full md:max-w-[50%] h-full">
+          <div className="w-[150px] h-[100px] mx-auto bg-[#1f2233] text-[#e0d8c3] flex items-center justify-center text-3xl font-bold rounded-lg shadow-[inset_0_0_20px_rgba(255,255,255,0.05)] border-[3px] border-[#444656] relative flex-shrink-0">
             {currentFloor}
             {direction === "up" && (
               <span className="ml-2 text-green-400 animate-bounce">
@@ -289,7 +289,7 @@ const Elevator = () => {
           </div>
 
           <div
-            className="w-full bg-gradient-to-b from-[#1a1a1f] via-[#2a2a36] to-[#1a1a1f] border-[4px] border-[#5c5c72] flex shadow-inner rounded-md overflow-hidden relative"
+            className="w-full bg-gradient-to-b from-[#1a1a1f] via-[#2a2a36] to-[#1a1a1f] border-[4px] border-[#5c5c72] flex shadow-inner rounded-md overflow-hidden relative flex-1"
             style={{ height: "calc(100vh - 200px)" }}
           >
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
