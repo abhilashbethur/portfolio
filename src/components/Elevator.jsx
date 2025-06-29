@@ -1,15 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "./Modal";
 import ButtonPanel from "./ButtonPanel";
 import FloorPlan from "./FloorPlan";
 
 const Elevator = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [contentType, setContentType] = useState(null); // Which modal content to show
+  const [isFloorMapOpen, setIsFloorMapOpen] = useState(false);
+  const [contentType, setContentType] = useState(null);
   const [currentFloor, setCurrentFloor] = useState(0);
   const [doorsOpen, setDoorsOpen] = useState(false);
   const [direction, setDirection] = useState(null);
   const [isMoving, setIsMoving] = useState(false);
+  const [showContentModal, setShowContentModal] = useState(false);
 
   const floorResumeMap = {
     1: "Summary",
@@ -20,12 +21,27 @@ const Elevator = () => {
     6: "Contact Me",
   };
 
+  // Trigger content modal when doors open and we're on a valid floor
+  useEffect(() => {
+    if (doorsOpen && currentFloor > 0 && floorResumeMap[currentFloor]) {
+      setTimeout(() => {
+        setContentType(floorResumeMap[currentFloor]);
+        setShowContentModal(true);
+      }, 500); // Delay to let doors finish opening
+    } else if (contentType !== "Initial") {
+      setShowContentModal(false);
+      setContentType(null);
+    }
+  }, [doorsOpen, currentFloor]);
+
   const handleFloorClick = (floor) => {
     if (isMoving || floor === currentFloor) return;
 
     setDirection(floor > currentFloor ? "up" : "down");
     setDoorsOpen(false);
     setIsMoving(true);
+    setShowContentModal(false);
+    setContentType(null);
 
     setTimeout(() => {
       setCurrentFloor(floor);
@@ -36,12 +52,47 @@ const Elevator = () => {
   };
 
   const getModalContent = () => {
+    const GoBackButton = () => (
+      <div className="flex justify-center mt-8">
+        <button
+          onClick={() => {
+            setShowContentModal(false);
+            setContentType(null);
+            setDoorsOpen(false);
+          }}
+          className="px-8 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white text-lg rounded-md hover:from-cyan-700 hover:to-blue-700 transition-all duration-200 font-bold uppercase tracking-wider shadow-lg"
+          style={{
+            textShadow: "0 0 10px rgba(0, 255, 255, 0.5)",
+            boxShadow: "0 0 20px rgba(0, 255, 255, 0.3)",
+          }}
+        >
+          Close Portal
+        </button>
+      </div>
+    );
+
     switch (contentType) {
+      case "Initial":
+        return (
+          <>
+            <h2 className="text-3xl font-bold mb-6 text-gray-800">
+              Welcome to Abhilash's Portfolio Building
+            </h2>
+            <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+              To access the floors, click on the floor plan inside the elevator
+              on the left.
+              <br />
+              If you are in a hurry, then click on <strong>Resume</strong> to
+              find my resume.
+            </p>
+            <GoBackButton />
+          </>
+        );
       case "Summary":
         return (
           <>
-            <h2 className="text-2xl font-bold mb-4 text-gray-800">Summary</h2>
-            <p className="text-lg text-gray-700 leading-relaxed mb-8">
+            <h2 className="text-3xl font-bold mb-6">System Profile</h2>
+            <p className="text-lg leading-relaxed mb-8">
               A passionate and performance-driven frontend engineer with over 5
               years of experience in building web applications using React.js,
               Next.js, and TypeScript. Adept at creating enterprise-grade UIs,
@@ -54,38 +105,34 @@ const Elevator = () => {
       case "Skills":
         return (
           <>
-            <h2 className="text-2xl font-bold mb-4 text-gray-800">
-              Technical Skills
-            </h2>
-            <ul className="text-gray-700 text-lg space-y-2 mb-8">
-              <li>
+            <h2 className="text-3xl font-bold mb-6">Technical Arsenal</h2>
+            <div className="text-left space-y-4 mb-8">
+              <div>
                 <strong>Languages:</strong> JavaScript, Python, C/C++, HTML/CSS,
                 Shell Scripting (Bash)
-              </li>
-              <li>
+              </div>
+              <div>
                 <strong>Frontend:</strong> React.js, Next.js, Material-UI,
                 Tailwind CSS
-              </li>
-              <li>
+              </div>
+              <div>
                 <strong>Backend:</strong> Node.js, Express.js, MongoDB
-              </li>
-              <li>
+              </div>
+              <div>
                 <strong>Testing:</strong> Playwright, Jenkins
-              </li>
-              <li>
+              </div>
+              <div>
                 <strong>Tools:</strong> Git, AWS EC2, Storybook, Azure, VS Code
-              </li>
-            </ul>
+              </div>
+            </div>
             <GoBackButton />
           </>
         );
       case "Experience":
         return (
           <>
-            <h2 className="text-2xl font-bold mb-4 text-gray-800">
-              Experience
-            </h2>
-            <div className="text-gray-700 text-lg space-y-6 mb-8">
+            <h2 className="text-3xl font-bold mb-6">Mission History</h2>
+            <div className="text-left space-y-6 mb-8">
               <div>
                 <strong>Software Engineer</strong> @ Tech Prescient (Dec 2022 –
                 Present)
@@ -114,73 +161,69 @@ const Elevator = () => {
       case "Projects":
         return (
           <>
-            <h2 className="text-2xl font-bold mb-4 text-gray-800">
-              Projects & Achievements
-            </h2>
-            <ul className="text-gray-700 text-lg list-disc pl-5 mb-8">
-              <li>
-                IEEE Publication: Co-authored Envirobat 2.1 - urban air
+            <h2 className="text-3xl font-bold mb-6">Project Archives</h2>
+            <div className="text-left space-y-4 mb-8">
+              <div>
+                • IEEE Publication: Co-authored Envirobat 2.1 - urban air
                 monitoring system (2017)
-              </li>
-              <li>Marketing site optimization: Reduced load time by 40%</li>
-              <li>Enterprise component library: 30+ reusable components</li>
-            </ul>
+              </div>
+              <div>• Marketing site optimization: Reduced load time by 40%</div>
+              <div>• Enterprise component library: 30+ reusable components</div>
+            </div>
             <GoBackButton />
           </>
         );
       case "Education":
         return (
           <>
-            <h2 className="text-2xl font-bold mb-4 text-gray-800">Education</h2>
-            <ul className="text-gray-700 text-lg list-disc pl-5 mb-8">
-              <li>
+            <h2 className="text-3xl font-bold mb-6">Academic Records</h2>
+            <div className="text-left space-y-4 mb-8">
+              <div>
                 <strong>The National Institute of Engineering</strong>
                 <br />
                 B.E. in Electronics and Communication - CGPA 8.58 (2015 – 2019)
-              </li>
-              <li>
+              </div>
+              <div>
                 <strong>ASC Independent PU College</strong>
                 <br />
                 Class XII – 96% (2013 – 2015)
-              </li>
-            </ul>
+              </div>
+            </div>
             <GoBackButton />
           </>
         );
       case "Contact Me":
         return (
           <>
-            <h2 className="text-2xl font-bold mb-4 text-gray-800">
-              Contact Me
-            </h2>
-            <ul className="text-gray-700 text-lg space-y-2 mb-8">
-              <li>
+            <h2 className="text-3xl font-bold mb-6">Communication Channels</h2>
+            <div className="text-left space-y-4 mb-8">
+              <div>
                 <strong>Phone:</strong> 735-367-7513
-              </li>
-              <li>
+              </div>
+              <div>
                 <strong>Email:</strong> abhilashbethur@gmail.com
-              </li>
-              <li>
+              </div>
+              <div>
                 <strong>LinkedIn:</strong>{" "}
                 <a
                   href="https://linkedin.com/in/abhilashbethur"
                   target="_blank"
-                  className="text-blue-600 underline"
+                  rel="noopener noreferrer"
                 >
                   linkedin.com/in/abhilashbethur
                 </a>
-              </li>
-              <li>
+              </div>
+              <div>
                 <strong>GitHub:</strong>{" "}
                 <a
                   href="https://github.com/abhilashbethur"
                   target="_blank"
-                  className="text-blue-600 underline"
+                  rel="noopener noreferrer"
                 >
                   github.com/abhilashbethur
                 </a>
-              </li>
-            </ul>
+              </div>
+            </div>
             <GoBackButton />
           </>
         );
@@ -189,52 +232,50 @@ const Elevator = () => {
     }
   };
 
-  const GoBackButton = () => (
-    <div className="flex justify-center">
-      <button
-        onClick={() => {
-          setContentType(null);
-          setIsModalOpen(false);
-        }}
-        className="px-6 py-3 bg-gray-300 text-gray-800 text-lg rounded-md hover:bg-gray-400 transition cursor-pointer"
-      >
-        Go Back
-      </button>
-    </div>
-  );
-
   const floorMapModal = (
     <>
-      <h2 className="text-3xl font-bold mb-6 text-gray-800">Floor Map</h2>
-      <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+      <h2 className="text-3xl font-bold mb-6">Navigation System</h2>
+      <p className="text-lg mb-8 leading-relaxed">
         Each floor in this elevator corresponds to a section of my portfolio.
-        Click on a floor label to explore more details about that section.
+        Select a destination to explore more details about that section.
       </p>
-      <ul className="text-left space-y-3 text-lg mb-8">
+      <div className="text-left space-y-3 mb-8">
         {Object.entries(floorResumeMap).map(([floor, section]) => (
-          <li
+          <div
             key={floor}
-            className="flex justify-between border-b pb-2 border-gray-300 cursor-pointer hover:text-blue-600"
+            className="flex justify-between border-b pb-2 border-cyan-600 cursor-pointer hover:text-cyan-300 transition-colors"
             onClick={() => {
               setContentType(section);
-              setIsModalOpen(false);
+              setIsFloorMapOpen(false);
+              setShowContentModal(true);
             }}
           >
-            <span className="font-medium text-gray-700">Floor {floor}</span>
-            <span className="text-gray-500">{section}</span>
-          </li>
+            <span className="font-medium">Floor {floor}</span>
+            <span>{section}</span>
+          </div>
         ))}
-      </ul>
-      <GoBackButton />
+      </div>
+      <div className="flex justify-center">
+        <button
+          onClick={() => setIsFloorMapOpen(false)}
+          className="px-8 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white text-lg rounded-md hover:from-cyan-700 hover:to-blue-700 transition-all duration-200 font-bold uppercase tracking-wider shadow-lg"
+          style={{
+            textShadow: "0 0 10px rgba(0, 255, 255, 0.5)",
+            boxShadow: "0 0 20px rgba(0, 255, 255, 0.3)",
+          }}
+        >
+          Close Map
+        </button>
+      </div>
     </>
   );
 
   return (
-    <div className="w-full h-full mx-auto bg-gradient-to-b from-[#0d0f1a] to-[#1a1c2b] px-20 text-white">
-      <div className="flex justify-center items-center pt-10 gap-10">
-        <FloorPlan onClick={() => setIsModalOpen(true)} />
+    <div className="w-full h-screen mx-auto bg-gradient-to-b from-[#0d0f1a] to-[#1a1c2b] px-4 md:px-20 text-white overflow-hidden">
+      <div className="flex justify-center items-center pt-10 gap-4 md:gap-20 h-full">
+        <FloorPlan onClick={() => setIsFloorMapOpen(true)} />
 
-        <div className="flex flex-col items-center gap-10 min-w-[40%]">
+        <div className="flex flex-col items-center gap-10 w-full md:max-w-[50%]">
           <div className="w-[150px] h-[100px] mx-auto bg-[#1f2233] text-[#e0d8c3] flex items-center justify-center text-3xl font-bold rounded-lg shadow-[inset_0_0_20px_rgba(255,255,255,0.05)] border-[3px] border-[#444656] relative">
             {currentFloor}
             {direction === "up" && (
@@ -250,26 +291,27 @@ const Elevator = () => {
           <div className="w-full h-[700px] bg-gradient-to-b from-[#1a1a1f] via-[#2a2a36] to-[#1a1a1f] border-[4px] border-[#5c5c72] flex shadow-inner rounded-md overflow-hidden relative">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
               <div className="relative">
-                <img
-                  src="/door.png"
-                  alt="Elevator Inside"
-                  className="object-contain"
-                />
-                <div
-                  onClick={() => setContentType(floorResumeMap[currentFloor])}
-                  className="absolute top-32 left-16 text-red-900 border-2 border-red-700 bg-emerald-300 py-4 px-2 w-[160px] text-center rounded-md uppercase font-bold shadow-lg cursor-pointer hover:bg-emerald-400"
-                >
-                  {floorResumeMap[currentFloor]}
+                <div className="w-32 h-48 bg-gradient-to-b from-[#2a2a36] to-[#1a1a1f] rounded-lg flex items-center justify-center border-2 border-[#5c5c72]">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-[#e0d8c3] mb-2">
+                      Floor {currentFloor}
+                    </div>
+                    {currentFloor > 0 && floorResumeMap[currentFloor] && (
+                      <div className="text-sm text-[#a0a0b0]">
+                        {floorResumeMap[currentFloor]}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
             <div
-              className={`w-1/2 h-full bg-gradient-to-b from-[#3d3d52] to-[#1f1f33] border-r-[2px] border-[#7a7a99] transform transition-transform duration-1000 z-11 ${
+              className={`w-1/2 h-full bg-gradient-to-b from-[#3d3d52] to-[#1f1f33] border-r-[2px] border-[#7a7a99] transform transition-transform duration-1000 z-20 ${
                 doorsOpen ? "-translate-x-full" : "translate-x-0"
               }`}
             />
             <div
-              className={`w-1/2 h-full bg-gradient-to-b from-[#3d3d52] to-[#1f1f33] border-l-[2px] border-[#7a7a99] transform transition-transform duration-1000 z-11 ${
+              className={`w-1/2 h-full bg-gradient-to-b from-[#3d3d52] to-[#1f1f33] border-l-[2px] border-[#7a7a99] transform transition-transform duration-1000 z-20 ${
                 doorsOpen ? "translate-x-full" : "translate-x-0"
               }`}
             />
@@ -285,20 +327,25 @@ const Elevator = () => {
         />
       </div>
 
-      {/* Modal Section */}
+      {/* Floor Map Modal */}
       <Modal
-        open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        open={isFloorMapOpen}
+        onClose={() => setIsFloorMapOpen(false)}
         content={floorMapModal}
       />
 
+      {/* Content Modal - expands from doors */}
       <Modal
-        open={!!contentType}
-        onClose={() => setContentType(null)}
+        open={showContentModal}
+        onClose={() => {
+          setShowContentModal(false);
+          setContentType(null);
+          setDoorsOpen(false);
+        }}
         content={getModalContent()}
+        expandFromDoors={true}
       />
     </div>
   );
 };
-
 export default Elevator;
