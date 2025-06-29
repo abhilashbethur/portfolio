@@ -272,7 +272,7 @@ const Elevator = () => {
 
   return (
     <div className="w-full h-screen mx-auto bg-gradient-to-b from-[#0d0f1a] to-[#1a1c2b] px-4 md:px-20 text-white overflow-hidden">
-      <div className="flex justify-center items-center pt-10 gap-4 md:gap-20 h-full">
+      <div className="flex justify-center items-center pt-10 gap-4 md:gap-20 h-full max-w-[1440px] mx-auto">
         <FloorPlan onClick={() => setIsFloorMapOpen(true)} />
 
         <div className="flex flex-col items-center gap-10 w-full md:max-w-[50%]">
@@ -288,7 +288,10 @@ const Elevator = () => {
             )}
           </div>
 
-          <div className="w-full h-[700px] bg-gradient-to-b from-[#1a1a1f] via-[#2a2a36] to-[#1a1a1f] border-[4px] border-[#5c5c72] flex shadow-inner rounded-md overflow-hidden relative">
+          <div
+            className="w-full bg-gradient-to-b from-[#1a1a1f] via-[#2a2a36] to-[#1a1a1f] border-[4px] border-[#5c5c72] flex shadow-inner rounded-md overflow-hidden relative"
+            style={{ height: "calc(100vh - 200px)" }}
+          >
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
               <div className="relative">
                 <div className="w-32 h-48 bg-gradient-to-b from-[#2a2a36] to-[#1a1a1f] rounded-lg flex items-center justify-center border-2 border-[#5c5c72]">
