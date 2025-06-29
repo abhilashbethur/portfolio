@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Modal from "./Modal";
 import ButtonPanel from "./ButtonPanel";
 import FloorPlan from "./FloorPlan";
+import elevatorSound from "/elevator-sound.mp3";
 
 const Elevator = () => {
   const [isFloorMapOpen, setIsFloorMapOpen] = useState(false);
@@ -11,6 +12,9 @@ const Elevator = () => {
   const [direction, setDirection] = useState(null);
   const [isMoving, setIsMoving] = useState(false);
   const [showContentModal, setShowContentModal] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(true);
+
+  const audio = new Audio(elevatorSound);
 
   const floorResumeMap = {
     1: "Summary",
@@ -42,13 +46,15 @@ const Elevator = () => {
     setIsMoving(true);
     setShowContentModal(false);
     setContentType(null);
+    if (soundEnabled)
+      audio.play().catch((e) => console.error("Audio play failed:", e));
 
     setTimeout(() => {
       setCurrentFloor(floor);
       setDoorsOpen(true);
       setIsMoving(false);
       setDirection(null);
-    }, 2000);
+    }, 1800);
   };
 
   const getModalContent = () => {
@@ -327,6 +333,8 @@ const Elevator = () => {
           doorsOpen={doorsOpen}
           handleFloorClick={handleFloorClick}
           currentFloor={currentFloor}
+          soundEnabled={soundEnabled}
+          toggleSound={() => setSoundEnabled((prev) => !prev)}
         />
       </div>
 
