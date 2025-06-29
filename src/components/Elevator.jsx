@@ -277,7 +277,7 @@ const Elevator = () => {
 
         <div className="flex flex-col gap-10 w-full md:max-w-[50%] h-full">
           <div className="w-[150px] h-[100px] mx-auto bg-[#1f2233] text-[#e0d8c3] flex items-center justify-center text-3xl font-bold rounded-lg shadow-[inset_0_0_20px_rgba(255,255,255,0.05)] border-[3px] border-[#444656] relative flex-shrink-0">
-            {currentFloor}
+            {!direction && currentFloor}
             {direction === "up" && (
               <span className="ml-2 text-green-400 animate-bounce">
                 &#8593;
